@@ -55,10 +55,16 @@ class TestRoutes(TestCase):
     def test_redirect_for_anonymous_client(self):
 
         login_url = reverse('users:login')
-        for name in ('notes:add','notes:edit', 'notes:detail', 'notes:delete'):
+        for name in (
+            'notes:add',
+            'notes:edit',
+            'notes:detail',
+            'notes:delete',
+            'notes:list'
+            ):
             with self.subTest(name=name):
                 url = (reverse(name)
-                       if name == 'notes:add'
+                       if (name == 'notes:add' or name == 'notes:list')
                        else reverse(name, args=(self.notes.slug,)))
                 redirect_url = f'{login_url}?next={url}'
                 response = self.client.get(url)
